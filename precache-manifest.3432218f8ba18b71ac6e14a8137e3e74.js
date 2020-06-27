@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "24de591026cbea35658cb9be947e2f75",
+    "revision": "4c30ddd50f7657781d2e1bd45a162cd5",
     "url": "https://RobertVo93.github.io/activitylogs/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "https://RobertVo93.github.io/activitylogs/static/css/2.a1b7a17e.chunk.css"
   },
   {
-    "revision": "e44e5e482689060a7f78",
+    "revision": "ca99bc74796bacf2b66e",
     "url": "https://RobertVo93.github.io/activitylogs/static/css/main.f1a00c2f.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "https://RobertVo93.github.io/activitylogs/static/js/2.a6f894ed.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e44e5e482689060a7f78",
-    "url": "https://RobertVo93.github.io/activitylogs/static/js/main.9b8a5dee.chunk.js"
+    "revision": "ca99bc74796bacf2b66e",
+    "url": "https://RobertVo93.github.io/activitylogs/static/js/main.30dcc83c.chunk.js"
   },
   {
     "revision": "baecbb6759ec45d8e277",
