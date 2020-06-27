@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "https://RobertVo93.github.io/activitylogs/static/css/main.f1a00c2f.chunk.css",
-    "main.js": "https://RobertVo93.github.io/activitylogs/static/js/main.cd7cb4bf.chunk.js",
-    "main.js.map": "https://RobertVo93.github.io/activitylogs/static/js/main.cd7cb4bf.chunk.js.map",
-    "runtime-main.js": "https://RobertVo93.github.io/activitylogs/static/js/runtime-main.3da36f8b.js",
-    "runtime-main.js.map": "https://RobertVo93.github.io/activitylogs/static/js/runtime-main.3da36f8b.js.map",
-    "static/css/2.a1b7a17e.chunk.css": "https://RobertVo93.github.io/activitylogs/static/css/2.a1b7a17e.chunk.css",
-    "static/js/2.a6f894ed.chunk.js": "https://RobertVo93.github.io/activitylogs/static/js/2.a6f894ed.chunk.js",
-    "static/js/2.a6f894ed.chunk.js.map": "https://RobertVo93.github.io/activitylogs/static/js/2.a6f894ed.chunk.js.map",
-    "index.html": "https://RobertVo93.github.io/activitylogs/index.html",
-    "precache-manifest.2b7eeca775f0dfe3dbda65979f23a217.js": "https://RobertVo93.github.io/activitylogs/precache-manifest.2b7eeca775f0dfe3dbda65979f23a217.js",
-    "service-worker.js": "https://RobertVo93.github.io/activitylogs/service-worker.js",
-    "static/css/2.a1b7a17e.chunk.css.map": "https://RobertVo93.github.io/activitylogs/static/css/2.a1b7a17e.chunk.css.map",
-    "static/css/main.f1a00c2f.chunk.css.map": "https://RobertVo93.github.io/activitylogs/static/css/main.f1a00c2f.chunk.css.map",
-    "static/js/2.a6f894ed.chunk.js.LICENSE.txt": "https://RobertVo93.github.io/activitylogs/static/js/2.a6f894ed.chunk.js.LICENSE.txt"
+    "main.css": "/activitylogs/static/css/main.f1a00c2f.chunk.css",
+    "main.js": "/activitylogs/static/js/main.7c37b9dc.chunk.js",
+    "main.js.map": "/activitylogs/static/js/main.7c37b9dc.chunk.js.map",
+    "runtime-main.js": "/activitylogs/static/js/runtime-main.903d5b62.js",
+    "runtime-main.js.map": "/activitylogs/static/js/runtime-main.903d5b62.js.map",
+    "static/css/2.a1b7a17e.chunk.css": "/activitylogs/static/css/2.a1b7a17e.chunk.css",
+    "static/js/2.168b85cb.chunk.js": "/activitylogs/static/js/2.168b85cb.chunk.js",
+    "static/js/2.168b85cb.chunk.js.map": "/activitylogs/static/js/2.168b85cb.chunk.js.map",
+    "index.html": "/activitylogs/index.html",
+    "precache-manifest.e0e3692157a3009183bef4e4b61e90fd.js": "/activitylogs/precache-manifest.e0e3692157a3009183bef4e4b61e90fd.js",
+    "service-worker.js": "/activitylogs/service-worker.js",
+    "static/css/2.a1b7a17e.chunk.css.map": "/activitylogs/static/css/2.a1b7a17e.chunk.css.map",
+    "static/css/main.f1a00c2f.chunk.css.map": "/activitylogs/static/css/main.f1a00c2f.chunk.css.map",
+    "static/js/2.168b85cb.chunk.js.LICENSE.txt": "/activitylogs/static/js/2.168b85cb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.3da36f8b.js",
+    "static/js/runtime-main.903d5b62.js",
     "static/css/2.a1b7a17e.chunk.css",
-    "static/js/2.a6f894ed.chunk.js",
+    "static/js/2.168b85cb.chunk.js",
     "static/css/main.f1a00c2f.chunk.css",
-    "static/js/main.cd7cb4bf.chunk.js"
+    "static/js/main.7c37b9dc.chunk.js"
   ]
 }
