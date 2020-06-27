@@ -116,7 +116,7 @@ class Toolbar extends React.Component<ToolbarProps, ToolbarStates> {
                         <div className="navbar-brand">
                             <span className="navbar-logo">
                                 <a href="/">
-                                    <img src="/assets/images/mbr-122x68.jpg" alt="GrownUp" title="" style={mystyles} />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/mbr-122x68.jpg`} alt="GrownUp" title="" style={mystyles} />
                                 </a>
                             </span>
                             <span className="navbar-caption-wrap">

@@ -22,7 +22,7 @@ export class About extends React.Component {
                         <div className="row media-row">
                             <div className="team-item col-lg-3 col-md-6">
                                 <div className="item-image">
-                                    <img src="assets/images/face3.jpg" alt="" title="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/face3.jpg`} alt="" title="" />
                                 </div>
                                 <div className="item-caption py-3">
                                     <div className="item-name px-2">
@@ -55,7 +55,7 @@ export class About extends React.Component {
                             </div>
                             <div className="team-item col-lg-3 col-md-6">
                                 <div className="item-image">
-                                    <img src="assets/images/face2.jpg" alt="" title="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/face2.jpg`} alt="" title="" />
                                 </div>
                                 <div className="item-caption py-3">
                                     <div className="item-name px-2">
@@ -88,7 +88,7 @@ export class About extends React.Component {
                             </div>
                             <div className="team-item col-lg-3 col-md-6">
                                 <div className="item-image">
-                                    <img src="assets/images/face3.jpg" alt="" title="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/face3.jpg`} alt="" title="" />
                                 </div>
                                 <div className="item-caption py-3">
                                     <div className="item-name px-2">
@@ -121,7 +121,7 @@ export class About extends React.Component {
                             </div>
                             <div className="team-item col-lg-3 col-md-6">
                                 <div className="item-image">
-                                    <img src="assets/images/face3.jpg" alt="" title="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/face3.jpg`} alt="" title="" />
                                 </div>
                                 <div className="item-caption py-3">
                                     <div className="item-name px-2">

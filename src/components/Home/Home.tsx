@@ -69,7 +69,7 @@ export class Home extends React.Component {
                                 <div className="panel-item p-3">
                                     <div className="card-block">
                                         <div className="testimonial-photo">
-                                            <img alt="1" src="assets/images/face1.jpg" />
+                                            <img alt="1" src={`${process.env.PUBLIC_URL}/assets/images/face1.jpg`} />
                                         </div>
                                         <p className="mbr-text mbr-fonts-style display-7">
                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae.
@@ -89,7 +89,7 @@ export class Home extends React.Component {
                                 <div className="panel-item p-3">
                                     <div className="card-block">
                                         <div className="testimonial-photo">
-                                            <img alt="2" src="assets/images/face2.jpg" />
+                                            <img alt="2" src={`${process.env.PUBLIC_URL}/assets/images/face2.jpg`} />
                                         </div>
                                         <p className="mbr-text mbr-fonts-style display-7">
                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae.
@@ -109,7 +109,7 @@ export class Home extends React.Component {
                                 <div className="panel-item p-3">
                                     <div className="card-block">
                                         <div className="testimonial-photo">
-                                            <img alt="3" src="assets/images/face3.jpg" />
+                                            <img alt="3" src={`${process.env.PUBLIC_URL}/assets/images/face3.jpg`} />
                                         </div>
                                         <p className="mbr-text mbr-fonts-style display-7">
                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae.
@@ -129,7 +129,7 @@ export class Home extends React.Component {
                                 <div className="panel-item p-3">
                                     <div className="card-block">
                                         <div className="testimonial-photo">
-                                            <img alt="4" src="assets/images/face2.jpg" />
+                                            <img alt="4" src={`${process.env.PUBLIC_URL}/assets/images/face2.jpg`} />
                                         </div>
                                         <p className="mbr-text mbr-fonts-style display-7">
                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae.
@@ -149,7 +149,7 @@ export class Home extends React.Component {
                                 <div className="panel-item p-3">
                                     <div className="card-block">
                                         <div className="testimonial-photo">
-                                            <img alt="5" src="assets/images/face2.jpg" />
+                                            <img alt="5" src={`${process.env.PUBLIC_URL}/assets/images/face2.jpg`} />
                                         </div>
                                         <p className="mbr-text mbr-fonts-style display-7">
                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae.
@@ -169,7 +169,7 @@ export class Home extends React.Component {
                                 <div className="panel-item p-3">
                                     <div className="card-block">
                                         <div className="testimonial-photo">
-                                            <img alt="6" src="assets/images/face2.jpg" />
+                                            <img alt="6" src={`${process.env.PUBLIC_URL}/assets/images/face2.jpg`} />
                                         </div>
                                         <p className="mbr-text mbr-fonts-style display-7">
                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aspernatur, voluptatibus, atque, tempore molestiae.

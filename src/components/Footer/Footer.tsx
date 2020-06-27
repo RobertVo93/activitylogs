@@ -8,7 +8,7 @@ export class Footer extends React.Component {
                         <div className="col-12 col-md-3">
                             <div className="media-wrap">
                                 <a href="/">
-                                    <img src="assets/images/mbr-192x108.jpg" alt="GrownUp" title="" />
+                                    <img src={`${process.env.PUBLIC_URL}/assets/images/mbr-192x108.jpg`} alt="GrownUp" title="" />
                                 </a>
                             </div>
                         </div>
