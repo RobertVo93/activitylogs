@@ -9,6 +9,7 @@ import { requestReducer } from "./request/reducers";
 import axiosMiddleware from 'redux-axios-middleware';
 import { commonAPI } from "../../service/common-api.service";
 import { updateRequest } from "./request/actions";
+import { AxiosRequestConfig, AxiosResponse } from "axios";
 
 //define persistConfig
 const persistConfig = {
@@ -31,7 +32,9 @@ let numberOfRequest = 0;
 const middlewareConfig = {
 	interceptors: {
 		request: [{
-			success: function ({ getState, dispatch, getSourceAction } : any, req : any) {
+			success: function ({ getState, dispatch, getSourceAction } : any, req : AxiosRequestConfig) {
+				let appState:AppState = getState();
+				req.headers.Authorization =  `bearer ${appState.user.currentUser.token}`;
 				numberOfRequest++;
 				console.log(numberOfRequest);
 				dispatch(updateRequest(numberOfRequest));
@@ -44,15 +47,14 @@ const middlewareConfig = {
 		}
 		],
 		response: [{
-			success: function ({ getState, dispatch, getSourceAction } : any, req : any) {
+			success: function ({ getState, dispatch, getSourceAction } : any, res : AxiosResponse) {
 				numberOfRequest--;
-				console.log(numberOfRequest);
 				dispatch(updateRequest(numberOfRequest));
-				return req;
+				return res;
 			},
 			error: function ({ getState, dispatch, getSourceAction } : any, error : any) {
+				//TODO: Redirect to login page if not loged in: 401
 				numberOfRequest--;
-				console.log(numberOfRequest);
 				dispatch(updateRequest(numberOfRequest));
 				return error;
 			}

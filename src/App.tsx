@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-	BrowserRouter as Router,
+	HashRouter as Router,
 	Switch,
 	Route,
 	Redirect
@@ -71,7 +71,8 @@ class App extends React.Component<AppProps, AppStates> {
 	async handleOnSubmitLoginForm(form: LoginState) {
 		let credentials: Credentials = {
 			username: form.email,
-			password: form.password
+			password: form.password,
+			rememberMe: form.rememberMe
 		}
 		this.userService.userLogin(credentials)
 			.then((result) => {

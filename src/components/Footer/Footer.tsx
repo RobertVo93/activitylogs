@@ -36,7 +36,7 @@ export class Footer extends React.Component {
                         <div className="media-container-row mbr-white">
                             <div className="col-sm-6 copyright">
                                 <p className="mbr-text mbr-fonts-style display-7">
-                                    © Copyright 2020 GrownUp - All Rights Reserved
+                                    © Copyright 2020 GrownUp - All Rights Reserved {process.env.REACT_APP_ACTIVITY_LOGS_SERVER}
                                 </p>
                             </div>
                             <div className="col-md-6">
