@@ -6,6 +6,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { userReducer } from "./user/reducers";
 import { activityReducer } from "./activity/reducers";
 import { requestReducer } from "./request/reducers";
+import { knowledgeBaseReducer } from "./knowledgeBase/reducers";
 import axiosMiddleware from 'redux-axios-middleware';
 import { commonAPI } from "../../service/common-api.service";
 import { updateRequest } from "./request/actions";
@@ -20,7 +21,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	user: userReducer,
 	activities: activityReducer,
-	request: requestReducer
+	request: requestReducer,
+	knowledgeBases: knowledgeBaseReducer
 });
 //define AppState
 export type AppState = ReturnType<typeof rootReducer>;

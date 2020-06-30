@@ -9,6 +9,7 @@ export class Config {
         register:`${process.env.REACT_APP_SERVER_URL}/api/register`,
         todo: `${process.env.REACT_APP_SERVER_URL}/api/todos`,
         activities: `${process.env.REACT_APP_SERVER_URL}/api/activities`,
+        knowledgeBases: `${process.env.REACT_APP_SERVER_URL}/api/knowledgebases`
     }
 
     commonMessage = {

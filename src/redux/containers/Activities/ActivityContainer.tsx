@@ -56,7 +56,6 @@ class ActivityContainer extends Component<ActivityContainerProps, ActivityContai
         if (this.state.redirectCreateNew) {
             //reset flag before redirect to new children component.
             //if not then next time this flag is still true and could not redirect again
-            debugger;
             this.setState({
                 redirectCreateNew: false
             });

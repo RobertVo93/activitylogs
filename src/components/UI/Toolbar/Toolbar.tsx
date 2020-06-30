@@ -70,6 +70,7 @@ class Toolbar extends React.Component<ToolbarProps, ToolbarStates> {
                     <div className="dropdown-menu">
                         <Link className="text-white dropdown-item display-4" to="/management/projects">Projects</Link>
                         <Link className="text-white dropdown-item display-4" to="/management/activities">Activities</Link>
+                        <Link className="text-white dropdown-item display-4" to="/management/knowledgebases">Knowledge Bases</Link>
                         <Link className="text-white dropdown-item display-4" to="/users">Users</Link>
                     </div>
                 </li>
