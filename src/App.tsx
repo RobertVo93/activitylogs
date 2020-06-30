@@ -26,6 +26,7 @@ import { LoginState } from './components/Auth/Login/LoginPropsStates';
 import { Credentials } from './interface/Credentials';
 import Login from './components/Auth/Login/Login';
 import KnowledgeBaseContainer from './redux/containers/KnowledgeBases/KnowledgeBaseContainer';
+import KnowledgeArticleContainer from './redux/containers/KnowledgeArticles/KnowledgeArticleContainer';
 
 type AppStates = {
 	redirectLogin: boolean,
@@ -231,6 +232,9 @@ class App extends React.Component<AppProps, AppStates> {
 						</Route>
 						<Route path="/management/knowledgebases">
 							<KnowledgeBaseContainer />
+						</Route>
+						<Route path="/management/knowledgearticles">
+							<KnowledgeArticleContainer />
 						</Route>
 						<Route path="/users">
 							<UserContainer />

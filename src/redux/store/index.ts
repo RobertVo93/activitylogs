@@ -7,6 +7,7 @@ import { userReducer } from "./user/reducers";
 import { activityReducer } from "./activity/reducers";
 import { requestReducer } from "./request/reducers";
 import { knowledgeBaseReducer } from "./knowledgeBase/reducers";
+import { knowledgeArticleReducer } from "./knowledgeArticle/reducers";
 import axiosMiddleware from 'redux-axios-middleware';
 import { commonAPI } from "../../service/common-api.service";
 import { updateRequest } from "./request/actions";
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
 	user: userReducer,
 	activities: activityReducer,
 	request: requestReducer,
-	knowledgeBases: knowledgeBaseReducer
+	knowledgeBases: knowledgeBaseReducer,
+	knowledgeArticles: knowledgeArticleReducer
 });
 //define AppState
 export type AppState = ReturnType<typeof rootReducer>;
