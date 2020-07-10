@@ -26,7 +26,10 @@ interface KnowledgeArticleContainerStates {
 const ContainerDiv = styled.div`
     min-height: calc(100vh - 80px);
 `;
-
+const contentStyle:React.CSSProperties = {
+    maxHeight: '55px',
+    overflow: 'hidden'
+}
 class KnowledgeArticleContainer extends Component<KnowledgeArticleContainerProps, KnowledgeArticleContainerStates> {
     knowledgeArticleService: KnowledgeArticleService;
     config: Config;
@@ -125,9 +128,14 @@ class KnowledgeArticleContainer extends Component<KnowledgeArticleContainerProps
                 Cell: ({ row }: { row: any }) => (<Link to={`knowledgearticles/${row.original._id}`}>{row.original.shortDescription}</Link>)
             },
             {
+                Header: 'Base',
+                id: 'knowledgeBase',
+                accessor: (row: KnowledgeArticle) => row.knowledgeBase ? `${row.knowledgeBase.name}` : ''
+            },
+            {
                 Header: 'Contents',
                 id: 'contents',
-                accessor: 'contents'
+                accessor: (row: KnowledgeArticle) => (<div style={contentStyle} dangerouslySetInnerHTML={{__html: row.contents}}></div>)
             },
             {
                 Header: 'Reviewer',

@@ -5,7 +5,7 @@ import { KnowledgeArticleService } from './KnowledgeArticle.service';
 import { withRouter } from 'react-router-dom';
 import {
     DynamicForm, FormConfig, Validator, QuestionBase, TextboxQuestion
-    , DynamicFormStates, ReferenceQuestion, TextAreaQuestion
+    , DynamicFormStates, ReferenceQuestion, CkeditorQuestion
 } from '../../../share-components/DynamicForm';
 import { KnowledgeArticle } from '../../../class/knowledgeArticle';
 import { Config } from '../../../configuration/config';
@@ -123,18 +123,35 @@ class KnowledgeArticleComponent extends React.Component<KnowledgeArticleProps, K
             order: 100
         }));
 
+        //Add knowledge base
+        validators = {}
+        validators[this.formConfig.formValidators.require] = {
+            value: true,
+            errorMessage: 'Knowledge Base is required.'
+        };
+        questions.push(new ReferenceQuestion({
+            key: 'knowledgeBase',
+            label: 'Knowledge Base',
+            value: knowledgeArticle.knowledgeBase,
+            validators: validators,
+            serverUrl: this.config.apiServiceURL.knowledgeBases,
+            displayField: 'name',
+            listFields: ['name'],
+            searchBar: true,
+            order: 150
+        }));
+
         //add contents
         validators = {}
         validators[this.formConfig.formValidators.require] = {
             value: true,
             errorMessage: 'Contents is required.'
         };
-        questions.push(new TextAreaQuestion({
+        questions.push(new CkeditorQuestion({
             key: 'contents',
             label: 'Contents',
             value: knowledgeArticle.contents,
             validators: validators,
-            rows: 8,
             order: 200
         }));
 
