@@ -27,6 +27,7 @@ import { Credentials } from './interface/Credentials';
 import Login from './components/Auth/Login/Login';
 import KnowledgeBaseContainer from './redux/containers/KnowledgeBases/KnowledgeBaseContainer';
 import KnowledgeArticleContainer from './redux/containers/KnowledgeArticles/KnowledgeArticleContainer';
+import ProjectContainer from './redux/containers/Projects/ProjectContainer';
 
 type AppStates = {
 	redirectLogin: boolean,
@@ -226,6 +227,9 @@ class App extends React.Component<AppProps, AppStates> {
 						</Route>
 						<Route path="/contact">
 							<Contact />
+						</Route>
+						<Route path="/management/projects">
+							<ProjectContainer />
 						</Route>
 						<Route path="/management/activities">
 							<ActivityContainer />

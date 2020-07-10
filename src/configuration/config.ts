@@ -10,7 +10,8 @@ export class Config {
         todo: `${process.env.REACT_APP_SERVER_URL}/api/todos`,
         activities: `${process.env.REACT_APP_SERVER_URL}/api/activities`,
         knowledgeBases: `${process.env.REACT_APP_SERVER_URL}/api/knowledgebases`,
-        knowledgeArticles: `${process.env.REACT_APP_SERVER_URL}/api/knowledgearticles`
+        knowledgeArticles: `${process.env.REACT_APP_SERVER_URL}/api/knowledgearticles`,
+        projects: `${process.env.REACT_APP_SERVER_URL}/api/projects`
     }
 
     commonMessage = {

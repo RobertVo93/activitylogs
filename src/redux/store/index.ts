@@ -12,6 +12,7 @@ import axiosMiddleware from 'redux-axios-middleware';
 import { commonAPI } from "../../service/common-api.service";
 import { updateRequest } from "./request/actions";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
+import { projectReducer } from "./project/reducers";
 
 //define persistConfig
 const persistConfig = {
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
 	activities: activityReducer,
 	request: requestReducer,
 	knowledgeBases: knowledgeBaseReducer,
-	knowledgeArticles: knowledgeArticleReducer
+	knowledgeArticles: knowledgeArticleReducer,
+	projects: projectReducer
 });
 //define AppState
 export type AppState = ReturnType<typeof rootReducer>;
