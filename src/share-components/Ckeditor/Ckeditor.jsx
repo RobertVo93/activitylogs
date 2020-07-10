@@ -2,11 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import styled from 'styled-components';
+import './Ckeditor.scss';
+
+const ContainerDiv = styled.div`
+
+`;
 
 export class ReactCkeditor extends React.Component {
+
     render() {
         return (
-            <div style={{ margin: '20px', marginTop: '150px' }}>
+            <ContainerDiv>
                 <CKEditor
                     editor={ClassicEditor}
                     data={this.props.data}
@@ -17,7 +24,7 @@ export class ReactCkeditor extends React.Component {
                     onChange={(event, editor) => {
                         const data = editor.getData();
                         console.log({ event, editor, data });
-                        this.props.dataChange(data);
+                        this.props.dataChange(data, this.props.ckeditorKey);
                     }}
                     onBlur={(event, editor) => {
                         console.log('Blur.', editor);
@@ -26,12 +33,13 @@ export class ReactCkeditor extends React.Component {
                         console.log('Focus.', editor);
                     }}
                 />
-            </div>
+            </ContainerDiv>
         )
     }
 }
 
-ReactCkeditor.prototype = {
+ReactCkeditor.propTypes = {
     data: PropTypes.string.isRequired,
-    dataChange: PropTypes.func.isRequired
+    dataChange: PropTypes.func.isRequired,
+    ckeditorKey: PropTypes.string.isRequired
 }

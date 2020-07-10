@@ -21,3 +21,7 @@ code {
     font-size: small;
     font-weight: 400;
 }
+
+.ck-editor__main p {
+    margin-bottom: 0rem !important;
+}

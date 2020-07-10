@@ -11,6 +11,7 @@ import { DateRange } from '../Variables/DateRange/DateRange';
 import { DateRangeStates } from '../Variables/DateRange/DateRangePropsStates';
 import './DynamicForm.scss';
 import { ODateRange } from '../../class/common/date-range';
+import { ReactCkeditor } from '../Ckeditor/Ckeditor';
 const ContainerDiv = styled.div`
 `;
 const DangerText: React.CSSProperties = {
@@ -36,6 +37,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
         this.onSelectionChangeCallback = this.onSelectionChangeCallback.bind(this);
         this.onSelectionReferenceListChange = this.onSelectionReferenceListChange.bind(this);
         this.onselectionDateRangeChange = this.onselectionDateRangeChange.bind(this);
+        this.onCkeditorChange = this.onCkeditorChange.bind(this);
     }
 
     componentDidUpdate() {
@@ -126,6 +128,26 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
         const { name, value } = event.target;
         let listFields = this.state.listFields;
         listFields[name] = value;
+        this.setState<never>({
+            listFields
+        }, () => {
+            let { errors, valid } = this.validateForm();
+            let disabled = !valid;
+            this.setState({
+                disableSubmitButton: disabled,
+                errors
+            });
+        });
+    }
+
+    /**
+     * On ckeditor change handler
+     * @param str string value
+     * @param key key of question
+     */
+    onCkeditorChange(str: string, key: string){
+        let listFields = this.state.listFields;
+        listFields[key] = str;
         this.setState<never>({
             listFields
         }, () => {
@@ -349,6 +371,20 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                             dateRange={question.value}
                             onSelectionChange={this.onselectionDateRangeChange}>
                         </DateRange>
+                        {this.renderErrorMessage(question.key)}
+                    </fieldset>
+                )
+            case this.formConfig.questionControlType.ckeditor:
+                return (
+                    <fieldset key={question.key} className="form-group">
+                        <label htmlFor={question.key}>
+                            <span hidden={!question.validators['required']} style={DangerText}>* </span><span data-text={question.label}>{question.label}</span>
+                        </label>
+                        <ReactCkeditor 
+                            data={question.value}
+                            dataChange={this.onCkeditorChange}
+                            ckeditorKey={question.key}
+                        />
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
                 )

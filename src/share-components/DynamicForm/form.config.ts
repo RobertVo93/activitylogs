@@ -37,6 +37,7 @@ export class FormConfig {
         textarea: 'textarea',
         dropdown: 'dropdown',
         reference: 'reference',
-        dateRange: 'daterange'
+        dateRange: 'daterange',
+        ckeditor: 'ckeditor'
     }
 }
