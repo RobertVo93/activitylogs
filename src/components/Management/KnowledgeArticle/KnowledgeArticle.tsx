@@ -10,6 +10,9 @@ import {
 import { KnowledgeArticle } from '../../../class/knowledgeArticle';
 import { Config } from '../../../configuration/config';
 import { CommonService } from '../../../service/common.service';
+import { Button } from '@material-ui/core';
+import { Link, Switch, Route } from 'react-router-dom';
+import { DocumentViewer } from '../../../share-components/DocumentViewer/DocumentViewer';
 
 const ContainerDiv = styled.div`
     width: 80%;
@@ -18,6 +21,10 @@ const ContainerDiv = styled.div`
     padding-bottom: 100px;
     font-size: small;
     font-weight: 400;
+`;
+const PreviewContainerDiv = styled.div`
+    width: 100%;
+    display: inline-block;
 `;
 class KnowledgeArticleComponent extends React.Component<KnowledgeArticleProps, KnowledgeArticleStates> {
     config: Config;
@@ -58,31 +65,31 @@ class KnowledgeArticleComponent extends React.Component<KnowledgeArticleProps, K
         let knowledgeArticle = this.convertFormToObject(form);
         if (this.state.isEditRecord) {
             this.knowledgeArticleService.update(knowledgeArticle)
-            .then((result) => {
-                //TODO: show message
-            })
-            .catch((err) => {
-                //TODO: handle error
-                console.log(err);
-            });
+                .then((result) => {
+                    //TODO: show message
+                })
+                .catch((err) => {
+                    //TODO: handle error
+                    console.log(err);
+                });
         }
         else {
             this.knowledgeArticleService.createNew(knowledgeArticle)
-            .then((result) => {
-                if(this.state.isEditRecord){
-                    this.setState({
-                        knowledgeArticle: knowledgeArticle
-                    });
-                }
-                else{
-                    window.location.reload(false);
-                }
-                
-            })
-            .catch((err) => {
-                //TODO: handle error
-                console.log(err);
-            });
+                .then((result) => {
+                    if (this.state.isEditRecord) {
+                        this.setState({
+                            knowledgeArticle: knowledgeArticle
+                        });
+                    }
+                    else {
+                        window.location.reload(false);
+                    }
+
+                })
+                .catch((err) => {
+                    //TODO: handle error
+                    console.log(err);
+                });
         }
     }
 
@@ -173,9 +180,31 @@ class KnowledgeArticleComponent extends React.Component<KnowledgeArticleProps, K
     render() {
         let questions = this.getQuestion(this.state.knowledgeArticle);
         return (
-            <ContainerDiv>
-                <DynamicForm ListFields={questions} OnSubmitCallback={this.handleSubmit} />
-            </ContainerDiv>
+            <div>
+                <Switch>
+                    <Route exact path={`/management/knowledgearticles/:knowledgeArticleId`}>
+                        <ContainerDiv>
+                            {
+                                this.state.isEditRecord ?
+                                    (
+                                        <PreviewContainerDiv>
+                                            <Button className="float-right" variant="contained" color="primary">
+                                                <Link to={`${this.state.knowledgeArticle._id}/preview`} style={{color: 'white'}}>Preview</Link>
+                                            </Button>
+                                        </PreviewContainerDiv>
+                                    )
+                                    :
+                                    ('')
+                            }
+                            <DynamicForm ListFields={questions} OnSubmitCallback={this.handleSubmit} />
+                        </ContainerDiv>
+                    </Route>
+                    <Route path={`/management/knowledgearticles/:knowledgeArticleId/preview`}>
+                        <DocumentViewer contents={this.state.knowledgeArticle.contents}></DocumentViewer>
+                    </Route>
+                </Switch>
+            </div>
+
         );
     }
 }
