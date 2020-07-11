@@ -118,7 +118,7 @@ export class CommentLog extends React.Component<CommentProps, CommentStates> {
                         this.renderCommentTitle()
                     }
                     {
-                        this.state.comments.map((com, ind) => (
+                        this.state.comments.slice(0).reverse().map((com, ind) => (
                             <CommentDiv className="comment" key={ind}>
                                 <ContainerInlineBlock className="comment-header">
                                     <LeftDiv className="comment-user">
