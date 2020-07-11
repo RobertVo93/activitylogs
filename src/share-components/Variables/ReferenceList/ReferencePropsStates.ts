@@ -19,7 +19,8 @@ export interface ReferenceStates {
     selectedValue: string,
     searchKey: string,
     data: any[],
-    originalData: any[]
+    originalData: any[],
+    selectedItems: any[]
 }
 
 export const initialReferenceStates: ReferenceStates = {
@@ -30,5 +31,6 @@ export const initialReferenceStates: ReferenceStates = {
     selectedValue: '',
     searchKey: '',
     data: [],
-    originalData: []
+    originalData: [],
+    selectedItems: []
 }

@@ -12,6 +12,7 @@ import { DateRangeStates } from '../Variables/DateRange/DateRangePropsStates';
 import './DynamicForm.scss';
 import { ODateRange } from '../../class/common/date-range';
 import { ReactCkeditor } from '../Ckeditor/Ckeditor';
+import { ReferenceMultipleList } from '../Variables/ReferenceList/ReferenceMultipleList';
 const ContainerDiv = styled.div`
 `;
 const DangerText: React.CSSProperties = {
@@ -65,13 +66,13 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
      * Handle date range selection changed
      * @param e date range state
      */
-    onselectionDateRangeChange(e: DateRangeStates){
+    onselectionDateRangeChange(e: DateRangeStates) {
         let listFields = this.state.listFields;
-        let newDateRange:ODateRange = e.dateRange;
+        let newDateRange: ODateRange = e.dateRange;
         listFields[e.referenceKey] = newDateRange;
         this.setState({
             listFields: listFields
-        }, ()=> {
+        }, () => {
             let { errors, valid } = this.validateForm();
             let disabled = !valid;
             this.setState({
@@ -85,7 +86,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
      * Handle reference list selected record
      * @param e reference state
      */
-    onSelectionReferenceListChange(e: ReferenceStates){
+    onSelectionReferenceListChange(e: ReferenceStates) {
         let listFields = this.state.listFields;
         listFields[e.referenceKey] = e.selected;
         this.setState({
@@ -104,7 +105,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
      * Handle dropdown list change
      * @param e Dropdown state
      */
-    onSelectionChangeCallback(e: DropDownStates){
+    onSelectionChangeCallback(e: DropDownStates) {
         let listFields = this.state.listFields;
         listFields[e.dropdownKey] = e.selected;
         this.setState<never>({
@@ -145,7 +146,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
      * @param str string value
      * @param key key of question
      */
-    onCkeditorChange(str: string, key: string){
+    onCkeditorChange(str: string, key: string) {
         let listFields = this.state.listFields;
         listFields[key] = str;
         this.setState<never>({
@@ -168,7 +169,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
         let errors: { [s: string]: string[] } = {};
         this.props.ListFields.forEach(element => {
             errors[element.key] = [];
-            switch(element.controlType){
+            switch (element.controlType) {
                 case this.formConfig.questionControlType.textbox:
                 case this.formConfig.questionControlType.textarea:
                     for (var key1 in element.validators) {
@@ -205,7 +206,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                     for (var key2 in element.validators) {
                         switch (key2) {
                             case this.formConfig.formValidators.require:
-                                if (!this.state.listFields[element.key] || this.state.listFields[element.key]._id == null ) {
+                                if (!this.state.listFields[element.key] || this.state.listFields[element.key]._id == null) {
                                     errors[element.key].push(
                                         element.validators[key2].errorMessage
                                     );
@@ -221,10 +222,10 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         switch (key3) {
                             case this.formConfig.formValidators.require:
                                 //not have value or value is 0 = [--none--]
-                                if (!this.state.listFields[element.key] 
+                                if (!this.state.listFields[element.key]
                                     || !this.state.listFields[element.key].key
                                     || this.state.listFields[element.key].key === 0
-                                    ) {
+                                ) {
                                     errors[element.key].push(
                                         element.validators[key3].errorMessage
                                     );
@@ -240,7 +241,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         switch (key4) {
                             case this.formConfig.formValidators.require:
                                 //not have value or value of one of two date is null
-                                if (!this.state.listFields[element.key] || 
+                                if (!this.state.listFields[element.key] ||
                                     this.state.listFields[element.key].startDate == null ||
                                     this.state.listFields[element.key].endDate == null) {
                                     errors[element.key].push(
@@ -256,7 +257,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                 default:
                     break;
             }
-            
+
         });
         for (var key in errors) {
             if (errors[key].length > 0) {
@@ -335,10 +336,10 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         <label htmlFor={question.key}>
                             <span hidden={!question.validators['required']} style={DangerText}>* </span><span data-text={question.label}>{question.label}</span>
                         </label>
-                        <CustomDropDown searchBar={question.searchBar} 
+                        <CustomDropDown searchBar={question.searchBar}
                             selected={question.value}
-                            dropdownKey={question.key} 
-                            onSelectionChange={this.onSelectionChangeCallback} 
+                            dropdownKey={question.key}
+                            onSelectionChange={this.onSelectionChangeCallback}
                             options={question.options}></CustomDropDown>
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
@@ -349,15 +350,32 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         <label htmlFor={question.key}>
                             <span hidden={!question.validators['required']} style={DangerText}>* </span><span data-text={question.label}>{question.label}</span>
                         </label>
-                        <ReferenceList serverUrl={question.serverUrl} 
-                            displayField={question.displayField}
-                            listFields={question.listFields}
-                            filterCondition={question.filterCondition}
-                            referenceKey={question.key}
-                            searchBar={question.searchBar} 
-                            selected={question.value}
-                            onSelectionChange={this.onSelectionReferenceListChange}
-                            ></ReferenceList>
+                        {
+                            question.multiple ?
+                                (
+                                    <ReferenceMultipleList serverUrl={question.serverUrl}
+                                        displayField={question.displayField}
+                                        listFields={question.listFields}
+                                        filterCondition={question.filterCondition}
+                                        referenceKey={question.key}
+                                        searchBar={question.searchBar}
+                                        selected={question.value}
+                                        onSelectionChange={this.onSelectionReferenceListChange}
+                                    ></ReferenceMultipleList>
+                                )
+                                :
+                                (
+                                    <ReferenceList serverUrl={question.serverUrl}
+                                        displayField={question.displayField}
+                                        listFields={question.listFields}
+                                        filterCondition={question.filterCondition}
+                                        referenceKey={question.key}
+                                        searchBar={question.searchBar}
+                                        selected={question.value}
+                                        onSelectionChange={this.onSelectionReferenceListChange}
+                                    ></ReferenceList>
+                                )
+                        }
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
                 )
@@ -380,7 +398,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         <label htmlFor={question.key}>
                             <span hidden={!question.validators['required']} style={DangerText}>* </span><span data-text={question.label}>{question.label}</span>
                         </label>
-                        <ReactCkeditor 
+                        <ReactCkeditor
                             data={question.value}
                             dataChange={this.onCkeditorChange}
                             ckeditorKey={question.key}

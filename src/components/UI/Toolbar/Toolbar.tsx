@@ -104,7 +104,7 @@ class Toolbar extends React.Component<ToolbarProps, ToolbarStates> {
             height: '3.8rem'
         } as React.CSSProperties;
         return (
-            <section className="menu cid-s05eVtUnGb" id="menu1-7">
+            <section className="menu cid-s05eVtUnGb" id="menu1-7" style={{zIndex: 100000}}>
                 <nav className="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm">
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <div className="hamburger">

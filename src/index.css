@@ -22,6 +22,11 @@ code {
     font-weight: 400;
 }
 
+.font-theme {
+    font-size: small !important;
+    font-weight: 400 !important;
+}
+
 .ck-editor__main p {
     margin-bottom: 0rem !important;
 }
