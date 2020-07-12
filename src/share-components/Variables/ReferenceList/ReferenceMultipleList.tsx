@@ -32,6 +32,10 @@ export class ReferenceMultipleList extends React.Component<ReferenceProps, Refer
         let allReference = await this.referenceService.getByUrl(this.props.serverUrl);
         let displayedData: any[] = [];
         allReference.forEach(element => {
+            delete element['createdBy'];
+            delete element['createdDate'];
+            delete element['updatedBy'];
+            delete element['updatedDate'];
             let newObj = JSON.parse(JSON.stringify(element));   //clone object
             //remove the fields that do not display
             if (this.props.listFields) {
@@ -113,7 +117,7 @@ export class ReferenceMultipleList extends React.Component<ReferenceProps, Refer
         return (
             <Autocomplete
                 multiple
-                id="multiple-checkbox"
+                id="autocomplete-box"
                 className="font-theme"
                 value={this.state.selectedItems}
                 onClose={this.onCloseDropdown}
