@@ -275,7 +275,7 @@ class ProjectComponent extends React.Component<ProjectProps, ProjectStates> {
             order: 300
         }));
 
-        return questions;
+        return questions.sort((a,b)=> a.order - b.order);
     }
 
     /**

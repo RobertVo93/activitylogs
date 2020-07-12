@@ -108,7 +108,7 @@ class UserComponent extends React.Component<UserProps, UserStates> {
             type: this.formConfig.inputTypeDef.text,
             order: 50
         }));
-        return questions;
+        return questions.sort((a,b)=> a.order - b.order);
     }
 
     render() {

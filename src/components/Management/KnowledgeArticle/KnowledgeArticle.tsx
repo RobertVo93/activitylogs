@@ -174,7 +174,7 @@ class KnowledgeArticleComponent extends React.Component<KnowledgeArticleProps, K
             order: 300
         }));
 
-        return questions;
+        return questions.sort((a,b)=> a.order - b.order);
     }
 
     render() {

@@ -256,7 +256,7 @@ class KnowledgeBaseComponent extends React.Component<KnowledgeBaseProps, Knowled
             order: 200
         }));
 
-        return questions;
+        return questions.sort((a,b)=> a.order - b.order);
     }
 
     /**
