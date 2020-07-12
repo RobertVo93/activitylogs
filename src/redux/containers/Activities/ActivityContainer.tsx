@@ -132,6 +132,11 @@ class ActivityContainer extends Component<ActivityContainerProps, ActivityContai
                 accessor: 'implemetationPlan',
             },
             {
+                Header: 'Project',
+                id: 'project',
+                accessor: (row: Activity) => row.project ? `${row.project.name}` : ''
+            },
+            {
                 Header: 'Plan date',
                 id: 'planDate',
                 columns: [

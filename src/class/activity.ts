@@ -2,12 +2,14 @@ import { ODateRange } from "./common/date-range";
 import { KeyValue } from "./common/keyValue";
 import { User } from "./user";
 import { Comment } from "./common/comment";
+import { Project } from "./project";
 
 export class Activity {
     constructor(obj?:any){
         this._id = obj ? obj._id : null;
         this.description = obj ? obj.description : '';
         this.implemetationPlan = obj ? obj.implemetationPlan : '';
+        this.project = obj ? obj.project : new Project();
         this.planDate = obj ? obj.planDate : new ODateRange();
         this.actualDate = obj ? obj.actualDate : new ODateRange();
         this.status = obj ? obj.status : new KeyValue();
@@ -22,6 +24,7 @@ export class Activity {
     _id:any;
     description: string;
     implemetationPlan: string;
+    project: Project;
     planDate: ODateRange;
     actualDate: ODateRange;
     status: KeyValue;

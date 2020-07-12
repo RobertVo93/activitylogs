@@ -93,6 +93,14 @@ class ActivityComponent extends React.Component<ActivityProps, ActivityStates> {
     async handleSubmit(form: DynamicFormStates) {
         //get activity object from dynamic form
         let activity = this.convertFormToObject(form);
+        if(activity.project){
+            delete activity.project.comments;
+            delete activity.project.members;
+            delete activity.project.createdBy;
+            delete activity.project.createdDate;
+            delete activity.project.updatedBy;
+            delete activity.project.updatedDate;
+        }
         let res;
         if (this.state.isEditRecord) {
             res = await this.activityService.update(activity);
@@ -170,6 +178,29 @@ class ActivityComponent extends React.Component<ActivityProps, ActivityStates> {
                                 {
                                     activity.implemetationPlan
                                 }
+                            </div>
+                            <BreakLine cssProperties={CommentBreakLineStyle}></BreakLine>
+                        </div>
+                    )
+                )
+            }
+
+            if (JSON.stringify(this.state.activity.project) !== JSON.stringify(activity.project)) {
+                result.push(
+                    ReactDOMServer.renderToString(
+                        <div>
+                            <div style={CommentLeftStyle}>
+                                <div style={CommentHeaderStyle}>Project:</div>
+                                <div>Project</div>
+                            </div>
+                            <div style={CommentRightStyle}>
+                                <div></div>
+                                <div>
+                                    {(activity.project && activity.project._id) ?
+                                        `${activity.project.name}`
+                                        : ''
+                                    }
+                                </div>
                             </div>
                             <BreakLine cssProperties={CommentBreakLineStyle}></BreakLine>
                         </div>
@@ -362,6 +393,18 @@ class ActivityComponent extends React.Component<ActivityProps, ActivityStates> {
             order: 20
         }));
 
+        //Add project to text
+        questions.push(new ReferenceQuestion({
+            key: 'project',
+            label: 'Project',
+            value: activity.project,
+            serverUrl: this.config.apiServiceURL.projects,
+            displayField: 'name',
+            listFields: ['name'],
+            searchBar: true,
+            order: 30
+        }));
+
         let options: KeyValue[] = [];
         Object.keys(this.config.activityStatus).forEach((opt, ind) => {
             options.push(this.config.activityStatus[opt]);
@@ -424,7 +467,7 @@ class ActivityComponent extends React.Component<ActivityProps, ActivityStates> {
             value: dateRange,
             order: 80
         }));
-        return questions;
+        return questions.sort((a,b)=> a.order - b.order);
     }
 
     /**
