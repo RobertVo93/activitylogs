@@ -12,7 +12,6 @@ import { DateRangeStates } from '../Variables/DateRange/DateRangePropsStates';
 import './DynamicForm.scss';
 import { ODateRange } from '../../class/common/date-range';
 import { ReactCkeditor } from '../Ckeditor/Ckeditor';
-import { ReferenceMultipleList } from '../Variables/ReferenceList/ReferenceMultipleList';
 const ContainerDiv = styled.div`
 `;
 const DangerText: React.CSSProperties = {
@@ -309,7 +308,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                             readOnly={question.readonly}
                             type={question.type}
                             name={question.key}
-                            value={this.state.listFields[question.key]}
+                            value={this.state.listFields[question.key] || ''}
                             id={question.key} />
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
@@ -351,30 +350,17 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                             <span hidden={!question.validators['required']} style={DangerText}>* </span><span data-text={question.label}>{question.label}</span>
                         </label>
                         {
-                            question.multiple ?
-                                (
-                                    <ReferenceMultipleList serverUrl={question.serverUrl}
-                                        displayField={question.displayField}
-                                        listFields={question.listFields}
-                                        filterCondition={question.filterCondition}
-                                        referenceKey={question.key}
-                                        searchBar={question.searchBar}
-                                        selected={question.value}
-                                        onSelectionChange={this.onSelectionReferenceListChange}
-                                    ></ReferenceMultipleList>
-                                )
-                                :
-                                (
-                                    <ReferenceList serverUrl={question.serverUrl}
-                                        displayField={question.displayField}
-                                        listFields={question.listFields}
-                                        filterCondition={question.filterCondition}
-                                        referenceKey={question.key}
-                                        searchBar={question.searchBar}
-                                        selected={question.value}
-                                        onSelectionChange={this.onSelectionReferenceListChange}
-                                    ></ReferenceList>
-                                )
+
+                            <ReferenceList serverUrl={question.serverUrl}
+                                displayField={question.displayField}
+                                listFields={question.listFields}
+                                filterCondition={question.filterCondition}
+                                referenceKey={question.key}
+                                selected={question.value}
+                                onSelectionChange={this.onSelectionReferenceListChange}
+                                multiple={question.multiple}
+                            ></ReferenceList>
+
                         }
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
