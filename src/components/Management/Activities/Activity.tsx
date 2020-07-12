@@ -96,10 +96,6 @@ class ActivityComponent extends React.Component<ActivityProps, ActivityStates> {
         if(activity.project){
             delete activity.project.comments;
             delete activity.project.members;
-            delete activity.project.createdBy;
-            delete activity.project.createdDate;
-            delete activity.project.updatedBy;
-            delete activity.project.updatedDate;
         }
         let res;
         if (this.state.isEditRecord) {

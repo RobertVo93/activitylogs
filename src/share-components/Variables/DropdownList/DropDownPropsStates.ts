@@ -4,8 +4,8 @@ export interface DropDownProps {
     options: KeyValue[],
     dropdownKey: string,
     onSelectionChange: (selected: DropDownStates) => void,
-    selected?: KeyValue,
-    searchBar?: boolean
+    selected?: any,
+    multiple?: boolean
 }
 
 export interface DropDownStates {
@@ -17,14 +17,8 @@ export interface DropDownStates {
 
 export const initialDropDownStates: DropDownStates = {
     dropdownKey: '',
-    originalSelected: new KeyValue({
-        key: 0,
-        value: "--None--"
-    }),
+    originalSelected: null,
     //default value is None
-    selected: new KeyValue({
-        key: 0,
-        value: "--None--"
-    }),
+    selected: null,
     searchKey: ''
 }

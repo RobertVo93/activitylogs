@@ -335,11 +335,13 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         <label htmlFor={question.key}>
                             <span hidden={!question.validators['required']} style={DangerText}>* </span><span data-text={question.label}>{question.label}</span>
                         </label>
-                        <CustomDropDown searchBar={question.searchBar}
+                        <CustomDropDown
                             selected={question.value}
                             dropdownKey={question.key}
                             onSelectionChange={this.onSelectionChangeCallback}
-                            options={question.options}></CustomDropDown>
+                            options={question.options}
+                            multiple={question.multiple}
+                            ></CustomDropDown>
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
                 );

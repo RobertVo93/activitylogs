@@ -1,84 +1,85 @@
 import React from 'react';
 import { DropDownProps, DropDownStates, initialDropDownStates } from './DropDownPropsStates';
-import { DropdownButton, Dropdown } from 'react-bootstrap';
+import { TextField, Checkbox } from '@material-ui/core';
+import Autocomplete, { AutocompleteCloseReason, AutocompleteChangeReason } from '@material-ui/lab/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import './DropdownList.scss';
-import styled from 'styled-components';
-const SearchInput = styled.input`
-    border-radius: 0px;
-    border-left: 0px;
-    border-right: 0px;
-`;
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
 export class CustomDropDown extends React.Component<DropDownProps, DropDownStates>{
     constructor(props: DropDownProps) {
         super(props);
 
         this.state = initialDropDownStates;
-        this.onSelectionChangeHandler = this.onSelectionChangeHandler.bind(this);
-        this.renderSearchBar = this.renderSearchBar.bind(this);
-        this.onSearchInputChangeHandler = this.onSearchInputChangeHandler.bind(this);
+        this.onCloseDropdown = this.onCloseDropdown.bind(this);
+        this.onChangeDropdown = this.onChangeDropdown.bind(this);
     }
 
     componentDidMount() {
         //set selected value for default
-        let preSelected = this.props.options[0];    //default option
-        if(this.props.selected && this.props.selected.key != null){
-            preSelected = this.props.selected;
+        let selected = this.state.selected;    //default option
+        if (this.props.selected)
+            selected = this.props.selected;
+
+        //get selected items to show checkbox if multiple autocomplete is enable
+        if (this.props.multiple) {
+            selected = [];
+            this.props.options.forEach((value) => {
+                if (selected && (selected as any[]).filter((val) => { return val["key"] === value["key"] }).length === 1) {
+                    selected.push(value);
+                }
+            });
         }
-        
         this.setState({
-            selected: preSelected,
-            originalSelected: JSON.parse(JSON.stringify(preSelected)),
+            selected: selected,
+            originalSelected: JSON.parse(JSON.stringify(selected)),
             dropdownKey: this.props.dropdownKey
         });
     }
 
     componentDidUpdate() {
         //listen in case the selected value is retrieved from server
-        if (this.props.selected && this.props.selected.key !== null && JSON.stringify(this.state.originalSelected) !== JSON.stringify(this.props.selected)) {
+        if (JSON.stringify(this.state.originalSelected) !== JSON.stringify(this.props.selected)) {
+            //get selected items to show checkbox if multiple autocomplete is enable
+            let selected = this.props.selected;
+            if (this.props.multiple) {
+                selected = [];
+                this.props.options.forEach((value) => {
+                    if (this.props.selected && (this.props.selected as any[]).filter((val) => { return val["key"] === value["key"] }).length === 1) {
+                        selected.push(value);
+                    }
+                });
+            }
+
             this.setState({
-                selected: JSON.parse(JSON.stringify(this.props.selected)),
-                originalSelected: JSON.parse(JSON.stringify(this.props.selected))
+                selected: selected,
+                originalSelected: JSON.parse(JSON.stringify(selected))
             });
         }
     }
 
-    renderSearchBar(){
-        let result;
-        if(this.props.searchBar){
-            result = (
-                <div className="search-bar">
-                    <SearchInput className="form-control" onChange={this.onSearchInputChangeHandler} placeholder="Search ..." />
-                    <Dropdown.Divider></Dropdown.Divider>
-                </div>
-            );
-        }
-        return result;
-    }
-
-    onSearchInputChangeHandler(event: any){
-        event.preventDefault();
-        this.setState({
-            searchKey: event.target.value
-        });
+    /**
+     * Handle action close dropdown list
+     * @param event change event
+     * @param reason reason for close
+     */
+    onCloseDropdown(event: React.ChangeEvent<{}>, reason: AutocompleteCloseReason) {
+        //update selected value for the parent component
+        this.props.onSelectionChange(this.state);
     }
 
     /**
-     * handle selection changed
-     * @param eventKey selected key
-     * @param event event
+     * Handle action change selection
+     * @param event change event
+     * @param value value selected
+     * @param reason reason for change
      */
-    onSelectionChangeHandler(eventKey: any, event: Object) {
-        //get the selected option
-        let preSelected = this.state.selected;
-        for(let i = 0; i < this.props.options.length; i++){
-            if(this.props.options[i].key.toString() === eventKey.toString()){
-                preSelected = this.props.options[i];
-                break;
-            }
-        }
-        //update selected option and send it to parent component
+    onChangeDropdown(event: React.ChangeEvent<{}>, value: any, reason: AutocompleteChangeReason) {
         this.setState({
-            selected: preSelected
+            selected: value
         }, () => {
             this.props.onSelectionChange(this.state);
         });
@@ -86,23 +87,41 @@ export class CustomDropDown extends React.Component<DropDownProps, DropDownState
 
     render() {
         return (
-            <DropdownButton id="dropdown-box"  
-                title={this.state.selected.value} 
-                onSelect={this.onSelectionChangeHandler}>
-                {
-                    this.renderSearchBar()
-                }
-                {
-                    this.props.options.filter((val, index) => {
-                        return val.value.indexOf(this.state.searchKey) !== -1 || this.state.searchKey === '';
-                    })
-                    .map((option, index) => (
-                        <Dropdown.Item key={`${option.key}${index}`} eventKey={option.key} className="option" >
-                            {option.value}
-                        </Dropdown.Item>
-                    ))
-                }
-            </DropdownButton>
+            <Autocomplete
+                multiple={this.props.multiple}
+                id="autocomplete-box"
+                className="font-theme"
+                value={(this.props.multiple && !this.state.selected) ? [] : this.state.selected}
+                onClose={this.onCloseDropdown}
+                onChange={this.onChangeDropdown}
+                options={this.props.options}
+                disableCloseOnSelect={this.props.multiple}
+                autoSelect
+                autoHighlight
+                getOptionLabel={(option) => option['value']}
+                renderOption={(option, { selected }) => (
+                    <React.Fragment>
+                        {
+                            this.props.multiple ?
+                                (
+                                    <Checkbox
+                                        icon={icon}
+                                        checkedIcon={checkedIcon}
+                                        style={{ marginRight: 8 }}
+                                        checked={selected}
+                                    />
+                                )
+                                :
+                                ('')
+                        }
+                        <span>{option.value}</span>
+                    </React.Fragment>
+                )}
+                style={{ width: '100%' }}
+                renderInput={(params) => (
+                    <TextField {...params} variant="outlined" label="Please select items" placeholder="Search for items ..." />
+                )}
+            />
         )
     }
 }

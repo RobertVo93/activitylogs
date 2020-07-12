@@ -78,7 +78,7 @@ export class ReferenceList extends React.Component<ReferenceProps, ReferenceStat
             }
             this.setState({
                 selected: selected,
-                originalSelected: JSON.parse(JSON.stringify(this.props.selected))
+                originalSelected: JSON.parse(JSON.stringify(selected))
             });
         }
     }
