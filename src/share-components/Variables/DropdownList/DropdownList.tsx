@@ -98,7 +98,7 @@ export class CustomDropDown extends React.Component<DropDownProps, DropDownState
                 disableCloseOnSelect={this.props.multiple}
                 autoSelect
                 autoHighlight
-                getOptionLabel={(option) => option['value']}
+                getOptionLabel={(option) => option['value'] ? option['value'] : ''}
                 renderOption={(option, { selected }) => (
                     <React.Fragment>
                         {
