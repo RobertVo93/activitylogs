@@ -2,7 +2,7 @@
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Config } from "../../../configuration/config";
 import { KnowledgeBase } from "../../../class/knowledgeBase";
-import { Comment } from "../../../class/common/comment";
+import { Comment } from "../../../share-components/CommentLog";
 import { commonAPI } from "../../../service/common-api.service";
 import { apiConfig } from "../../../configuration/api.config";
 export class KnowledgeBaseService {

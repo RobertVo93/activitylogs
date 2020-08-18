@@ -10,10 +10,8 @@ import {
 import { Project } from '../../../class/project';
 import { Config } from '../../../configuration/config';
 import { BreakLine } from '../../../share-components/Variables'
-import { CommentLog } from '../../../share-components/CommentLog/CommentLog';
-import { CommentStates } from '../../../share-components/CommentLog/CommentLogPropsStates';
+import { CommentStates, Comment, CommentLog } from '../../../share-components/CommentLog';
 import { CommonService } from '../../../service/common.service';
-import { Comment } from '../../../class/common/comment';
 
 import ReactDOMServer from "react-dom/server";
 
@@ -287,7 +285,7 @@ class ProjectComponent extends React.Component<ProjectProps, ProjectStates> {
             result = (
                 <div>
                     <BreakLine></BreakLine>
-                    <CommentLog loginUser={this.props.loginUser}
+                    <CommentLog commentedUser={this.props.loginUser}
                         comments={this.state.project.comments}
                         onSubmitComment={this.handleSubmitComment}></CommentLog>
                 </div>

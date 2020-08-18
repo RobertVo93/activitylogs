@@ -1,7 +1,7 @@
 import React from 'react';
-import { CommentProps, CommentStates, initialCommentStates } from './CommentLogPropsStates';
 import styled from 'styled-components';
-import { Comment } from '../../class/common/comment';
+import { Comment } from './comment';
+import { CommentStates, CommentProps, initialCommentStates } from './CommentLogPropsStates';
 
 const LeftDiv = styled.div`
     float: left;
@@ -65,10 +65,11 @@ export class CommentLog extends React.Component<CommentProps, CommentStates> {
      * Handle submit comment
      */
     handleSubmitComment() {
+        //create new Comment object base on the user's input
         let current = new Date();
         let comments = this.state.comments;
         let newComment = new Comment({
-            userComment: this.props.loginUser,
+            userComment: this.props.commentedUser,
             comment: this.state.newComment,
             commentDate: current.toUTCString()
         });

@@ -1,10 +1,9 @@
-import { Comment } from "../../class/common/comment";
-import { User } from "../../class/user";
+import { Comment } from "./comment";
 
 export interface CommentProps {
     comments: Comment[],
-    onSubmitComment: (form: CommentStates) => void,
-    loginUser: User
+    commentedUser: any,
+    onSubmitComment: (form: CommentStates) => void
 }
 export interface CommentStates {
     comments: Comment[],

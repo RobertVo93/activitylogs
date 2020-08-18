@@ -1,4 +1,4 @@
-import { User } from "../user";
+import { User } from "../../class/user";
 
 export class Comment {
     constructor(obj?: any){

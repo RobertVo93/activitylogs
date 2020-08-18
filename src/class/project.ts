@@ -1,5 +1,5 @@
 import { User } from "./user";
-import { Comment } from "./common/comment";
+import { Comment } from "../share-components/CommentLog";
 export class Project {
     constructor(obj?:any){
         this._id = obj ? obj._id : null;

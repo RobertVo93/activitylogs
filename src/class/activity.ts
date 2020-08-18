@@ -1,7 +1,7 @@
 import { ODateRange } from "./common/date-range";
 import { KeyValue } from "./common/keyValue";
 import { User } from "./user";
-import { Comment } from "./common/comment";
+import { Comment } from "../share-components/CommentLog";
 import { Project } from "./project";
 
 export class Activity {
