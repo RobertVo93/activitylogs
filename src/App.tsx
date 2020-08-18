@@ -15,7 +15,6 @@ import { SignUpState } from './components/Auth/SignUp/SignUpPropsStates';
 import { UserServiceApi } from './components/Management/Users/User.service';
 import * as apiConfig from './configuration/api.config';
 import { User } from './class/user';
-import { AlertDiv } from './share-components/Alert/AlertComponent';
 import { Config } from './configuration/config';
 import UserContainer from './redux/containers/Users/UserContainer';
 import ActivityContainer from './redux/containers/Activities/ActivityContainer';
@@ -28,15 +27,16 @@ import Login from './components/Auth/Login/Login';
 import KnowledgeBaseContainer from './redux/containers/KnowledgeBases/KnowledgeBaseContainer';
 import KnowledgeArticleContainer from './redux/containers/KnowledgeArticles/KnowledgeArticleContainer';
 import ProjectContainer from './redux/containers/Projects/ProjectContainer';
+import { updateAlert } from './redux/store/request/actions';
 
 type AppStates = {
 	redirectLogin: boolean,
-	redirectHome: boolean,
-	alertConfig: any
+	redirectHome: boolean
 }
 type AppProps = {
 	user: any,
-	loginUser: typeof loginUser;
+	loginUser: typeof loginUser,
+	updateAlert: typeof updateAlert
 }
 class App extends React.Component<AppProps, AppStates> {
 	userService: UserServiceApi;	//user service
@@ -46,24 +46,27 @@ class App extends React.Component<AppProps, AppStates> {
 		//initial variables
 		this.state = {
 			redirectLogin: false,
-			redirectHome: false,
-			alertConfig: {}
+			redirectHome: false
 		}
 		this.userService = new UserServiceApi(apiConfig.apiConfig);
 		this.config = new Config();
 
-		//binding functions
-		//login component
 		this.handleOnSubmitLoginForm = this.handleOnSubmitLoginForm.bind(this);
-		//Sign up component
 		this.handleOnSubmitRegisterForm = this.handleOnSubmitRegisterForm.bind(this);
-
-		//Router
 		this.handleRenderRedirectRouter = this.handleRenderRedirectRouter.bind(this);
+	}
 
-		//Alert component
-		this.handleRenderAlert = this.handleRenderAlert.bind(this);
-		this.handleOnCloseAlert = this.handleOnCloseAlert.bind(this);
+	componentDidUpdate() {
+		if (this.state.redirectHome) {
+			this.setState({
+				redirectHome: false
+			});
+		}
+		else if (this.state.redirectLogin) {
+			this.setState({
+				redirectLogin: false
+			});
+		}
 	}
 
 	//------------------------------------------LOG IN COMPONENT-----------------------------
@@ -87,21 +90,17 @@ class App extends React.Component<AppProps, AppStates> {
 					});
 				}
 				else {
-					this.setState({
-						alertConfig: {
-							show: true,
+					this.props.updateAlert({
+						show: true,
 							value: this.config.commonMessage.userNotFound,
 							variant: this.config.alertVariants.danger
-						}
 					});
 				}
 			}).catch((err) => {
-				this.setState({
-					alertConfig: {
-						show: true,
+				this.props.updateAlert({
+					show: true,
 						value: this.config.commonMessage.loginError,
 						variant: this.config.alertVariants.danger
-					}
 				});
 			});
 	}
@@ -128,22 +127,18 @@ class App extends React.Component<AppProps, AppStates> {
 					});
 				}
 				else {
-					this.setState({
-						alertConfig: {
-							show: true,
+					this.props.updateAlert({
+						show: true,
 							value: this.config.commonMessage.signUpError,
 							variant: this.config.alertVariants.danger
-						}
 					});
 				}
 			})
 			.catch((err) => {
-				this.setState({
-					alertConfig: {
-						show: true,
+				this.props.updateAlert({
+					show: true,
 						value: this.config.commonMessage.signUpError,
 						variant: this.config.alertVariants.danger
-					}
 				});
 			});
 	}
@@ -164,59 +159,10 @@ class App extends React.Component<AppProps, AppStates> {
 		}
 	}
 
-	//------------------------------------------ALERT COMPONENT------------------------------
-	/**
-	 * Handle on close alert component
-	 */
-	handleOnCloseAlert() {
-		this.setState({
-			alertConfig: {}
-		});
-	}
-	/**
-	 * Handle render alert component
-	 */
-	handleRenderAlert() {
-		if (this.state.alertConfig.show) {
-			return (
-				<AlertDiv variant={this.state.alertConfig.variant}
-					show={true}
-					value={this.state.alertConfig.value}
-					onClose={this.handleOnCloseAlert}
-				>
-				</AlertDiv>
-			);
-		}
-	}
-
-	// // Before the component mounts, we initialise our state
-	// componentWillMount() {
-	// }
-
-	// After the component did mount
-	componentDidMount() {
-	}
-
-	componentDidUpdate() {
-		if (this.state.redirectHome) {
-			this.setState({
-				redirectHome: false
-			});
-		}
-		else if (this.state.redirectLogin) {
-			this.setState({
-				redirectLogin: false
-			});
-		}
-	}
-
 	render() {
 		return (
 			<Router>
 				<Toolbar />
-				{
-					this.handleRenderAlert()
-				}
 				{
 					this.handleRenderRedirectRouter()
 				}
@@ -273,8 +219,12 @@ class App extends React.Component<AppProps, AppStates> {
 const mapStateToProps = (state: AppState) => ({
 	user: state.user
 });
+const mapDispatchToProps = {
+	updateAlert,
+	loginUser
+}
 
 export default connect(
 	mapStateToProps,
-	{ loginUser }
+	mapDispatchToProps
 )(App);

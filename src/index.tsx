@@ -2,12 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from "react-redux";
 import * as serviceWorker from './serviceWorker';
+import { PersistGate } from 'redux-persist/integration/react';
+
 import './index.css';
 import App from "./App";
 import { Footer } from './components/Footer/Footer';
 import * as persistStore from './redux/store';
-import { PersistGate } from 'redux-persist/integration/react';
 import LoadingSpinner from './share-components/Spinner/LoadingSpinner';
+import GlobalAlert from './components/Common/Alert/GlobalAlert';
 
 ReactDOM.render(
 	<Provider store={persistStore.default().store}>
@@ -15,6 +17,7 @@ ReactDOM.render(
 			<LoadingSpinner />
 			<App />
 			<Footer />
+			<GlobalAlert />
 		</PersistGate>
 	</Provider>,
 	document.getElementById('root')

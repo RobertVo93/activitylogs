@@ -3,8 +3,8 @@ import Alert from 'react-bootstrap/Alert';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { AppState } from "../../redux/store";
-import { updateAlert } from "../../redux/store/request/actions";
+import { AppState } from "../../../redux/store";
+import { updateAlert } from "../../../redux/store/request/actions";
 
 const ContainerDiv = styled.div`
     position: fixed;
@@ -29,6 +29,7 @@ interface GlobalAlertProps {
     show?: boolean,
     variant?: any,
     value?: any,
+    timeKeepAlive?: number,
     updateAlert: typeof updateAlert
 }
 
@@ -36,10 +37,10 @@ class GlobalAlert extends React.Component<GlobalAlertProps, {}> {
 
     componentDidUpdate(){
         if(this.props.show){
-            //hide alert after 2 seconds
+            //hide alert after 2 seconds or predefined time alive
             setTimeout(()=>{
                 this.props.updateAlert({});
-            }, 2000)
+            }, this.props.timeKeepAlive || 2000)
         }
     }
     
