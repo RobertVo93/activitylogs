@@ -8,7 +8,7 @@ import './index.css';
 import App from "./App";
 import { Footer } from './components/Footer/Footer';
 import * as persistStore from './redux/store';
-import LoadingSpinner from './share-components/Spinner/LoadingSpinner';
+import LoadingSpinner from './components/Common/Spinner/LoadingSpinner';
 import GlobalAlert from './components/Common/Alert/GlobalAlert';
 
 ReactDOM.render(

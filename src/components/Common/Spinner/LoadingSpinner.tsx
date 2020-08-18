@@ -2,8 +2,9 @@ import React from "react";
 import { css } from "@emotion/core";
 import BounceLoader from "react-spinners/BounceLoader"; //https://github.com/davidhu2000/react-spinners
 import { connect } from 'react-redux';
-import { AppState } from "../../redux/store";
 import styled from "styled-components";
+
+import { AppState } from "../../../redux/store";
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
@@ -12,6 +13,7 @@ margin: 0 auto;
 margin-top: 200px;
 border-color: red;
 `;
+
 const ContainerDiv = styled.div`
     position: fixed;
     width: 100%;
@@ -21,16 +23,12 @@ const ContainerDiv = styled.div`
     background-color: gray;
     top: 0px;
 `;
+
 interface LoadingSpinnerProps {
     numberOfRequest: number
 }
-interface LoadingSpinnerStates {
 
-}
-class LoadingSpinner extends React.Component<LoadingSpinnerProps, LoadingSpinnerStates> {
-    componentDidUpdate() {
-        console.log(this.props);
-    }
+class LoadingSpinner extends React.PureComponent<LoadingSpinnerProps, {}> {
     render() {
         return (
             <div>

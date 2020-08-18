@@ -3,6 +3,7 @@ import Alert from 'react-bootstrap/Alert';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import './GlobalAlert.scss';
 import { AppState } from "../../../redux/store";
 import { updateAlert } from "../../../redux/store/request/actions";
 
