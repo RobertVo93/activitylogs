@@ -38,6 +38,8 @@ export class FormConfig {
         dropdown: 'dropdown',
         reference: 'reference',
         dateRange: 'daterange',
-        ckeditor: 'ckeditor'
+        ckeditor: 'ckeditor',
+        datetime: 'datetime',
+        radiobutton: 'radiobutton'
     }
 }

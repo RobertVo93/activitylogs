@@ -25,7 +25,9 @@ export function Table({
     skipPageReset = true,
     deleteRecordHandler = (selectedId) => { },
     addRecordHandler = () => { },
-    TableName = ''
+    TableName = '',
+    showSelection = true,
+    showAddRecord = true
 }) {
     const filterTypes = React.useMemo(
         () => ({
@@ -75,7 +77,10 @@ export function Table({
             filterTypes,
             autoResetPage: !skipPageReset,  //reset page after change (filter)
             pageCount: controlledPageCount,
-            manualPagination: true, // Tell the usePagination
+            initialState: {
+                hiddenColumns: ['createdBy', 'createdDate', 'updatedBy', 'updatedDate']
+            }
+            // manualPagination: true, // Tell the usePagination
         },
         useGlobalFilter,
         useFilters,
@@ -83,27 +88,28 @@ export function Table({
         usePagination,
         useRowSelect,
         hooks => {
-            hooks.allColumns.push(columns => [
-                // Let's make a column for selection
-                {
-                    id: "selection",
-                    // The header can use the table's getToggleAllRowsSelectedProps method
-                    // to render a checkbox
-                    Header: ({ getToggleAllRowsSelectedProps }) => (
-                        <div style={{ textAlign: "center" }}>
-                            <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-                        </div>
-                    ),
-                    // The cell can use the individual row's getToggleRowSelectedProps method
-                    // to the render a checkbox
-                    Cell: ({ row }) => (
-                        <div style={{ textAlign: "center" }}>
-                            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-                        </div>
-                    )
-                },
-                ...columns
-            ]);
+            hooks.allColumns.push(columns => {
+                if (showSelection) {
+                    columns.unshift({
+                        id: "selection",
+                        // The header can use the table's getToggleAllRowsSelectedProps method
+                        // to render a checkbox
+                        Header: ({ getToggleAllRowsSelectedProps }) => (
+                            <div style={{ textAlign: "center" }}>
+                                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+                            </div>
+                        ),
+                        // The cell can use the individual row's getToggleRowSelectedProps method
+                        // to the render a checkbox
+                        Cell: ({ row }) => (
+                            <div style={{ textAlign: "center" }}>
+                                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                            </div>
+                        )
+                    });
+                }
+                return columns
+            });
         }
     )
 
@@ -135,6 +141,7 @@ export function Table({
     return (
         <TableContainer className="ReactTable">
             <TableToolbar
+                showAddRecord={showAddRecord}
                 numSelected={Object.keys(selectedRowIds).length}
                 deleteRecordHandler={preDeleteRecordHandler}
                 addRecordHandler={addRecordHandler}
@@ -189,14 +196,14 @@ export function Table({
                 <TableFooter className="pagination">
                     <TableRow>
                         <TablePagination
-                            rowsPerPageOptions={[
-                                5,
-                                10,
-                                25,
-                                50,
-                                100,
-                                { label: 'All', value: controlledPageCount },
-                            ]}
+                            // rowsPerPageOptions={[
+                            //     5,
+                            //     10,
+                            //     25,
+                            //     50,
+                            //     100,
+                            //     { label: 'All', value: controlledPageCount },
+                            // ]}
                             colSpan={10000}
                             count={controlledPageCount}
                             rowsPerPage={pageSize}

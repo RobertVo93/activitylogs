@@ -1,13 +1,12 @@
 import React from 'react';
-import { DynamicFormProps, DynamicFormStates, initialDynamicFormStates } from './DynamicFormPropState';
+import { DynamicFormProps, DynamicFormStates } from './DynamicFormPropState';
 import styled from 'styled-components';
 import { QuestionBase } from './questions/question-base';
 import { FormConfig } from './form.config';
-import { CustomDropDown } from '../Variables/DropdownList/DropdownList';
-import { DropDownStates } from '../Variables/DropdownList/DropDownPropsStates';
-import { ReferenceList } from '../Variables/ReferenceList/ReferenceList';
+import { CustomDropDown, ReferenceList, DateTime, RadioButton, RadioButtonStates, DateRange } from '../Variables';
 import { ReferenceStates } from '../Variables/ReferenceList/ReferencePropsStates';
-import { DateRange } from '../Variables/DateRange/DateRange';
+import { DropDownStates } from '../Variables/DropdownList/DropDownPropsStates';
+import { DateTimeStates } from '../Variables/DateTime/DateTimePropsStates';
 import { DateRangeStates } from '../Variables/DateRange/DateRangePropsStates';
 import './DynamicForm.scss';
 import { ODateRange } from '../../class/common/date-range';
@@ -27,7 +26,12 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
         super(props);
 
         this.formConfig = new FormConfig();
-        this.state = initialDynamicFormStates;
+        this.state = {
+            originalListFields: {},
+            listFields: {},
+            errors: {},
+            disableSubmitButton: true
+        };
 
         this.renderErrorMessage = this.renderErrorMessage.bind(this);
         this.renderQuestion = this.renderQuestion.bind(this);
@@ -38,6 +42,20 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
         this.onSelectionReferenceListChange = this.onSelectionReferenceListChange.bind(this);
         this.onselectionDateRangeChange = this.onselectionDateRangeChange.bind(this);
         this.onCkeditorChange = this.onCkeditorChange.bind(this);
+        this.onselectionDateTimeChange = this.onselectionDateTimeChange.bind(this);
+        this.onRadioSelectionChange = this.onRadioSelectionChange.bind(this);
+    }
+
+    componentDidMount() {
+        //wait for update from container element
+        let listFields: { [s: string]: any } = {};
+        this.props.ListFields.forEach((val) => {
+            listFields[val.key] = val.value;
+        });
+        this.setState({
+            listFields: listFields,
+            originalListFields: JSON.parse(JSON.stringify(listFields))
+        });
     }
 
     componentDidUpdate() {
@@ -46,11 +64,13 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
         this.props.ListFields.forEach((val) => {
             listFields[val.key] = val.value;
         });
+        //If list of fields change => update state
         if (JSON.stringify(this.state.originalListFields) !== JSON.stringify(listFields)) {
             this.setState({
                 listFields: listFields,
                 originalListFields: JSON.parse(JSON.stringify(listFields))
             }, () => {
+                //Validate the form
                 let { errors, valid } = this.validateForm();
                 let disabled = !valid;
                 this.setState({
@@ -82,15 +102,60 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
     }
 
     /**
+     * Handle radio button changed
+     * @param value Radio button state
+     */
+    onRadioSelectionChange(value: RadioButtonStates) {
+        let listFields = this.state.listFields;
+        listFields[value.referenceKey] = value.value ? JSON.parse(value.value) : value.value;
+        //update new value
+        this.setState<never>({
+            listFields
+        }, () => {
+            //validate form
+            let { errors, valid } = this.validateForm();
+            let disabled = !valid;
+            this.setState({
+                disableSubmitButton: disabled,
+                errors
+            });
+        });
+    }
+
+    /**
+     * Handle date time selection changed
+     * @param e date time state
+     */
+    onselectionDateTimeChange(e: DateTimeStates) {
+        let listFields = this.state.listFields;
+        let newDate = e.dateTime;
+        listFields[e.referenceKey] = newDate;
+        //update new value
+        this.setState({
+            listFields: listFields
+        }, () => {
+            //validate the form
+            let { errors, valid } = this.validateForm();
+            let disabled = !valid;
+            this.setState({
+                disableSubmitButton: disabled,
+                errors
+            });
+        })
+    }
+
+    /**
      * Handle reference list selected record
      * @param e reference state
      */
     onSelectionReferenceListChange(e: ReferenceStates) {
         let listFields = this.state.listFields;
         listFields[e.referenceKey] = e.selected;
+        //udate new value
         this.setState({
             listFields
         }, () => {
+            //validate the form
             let { errors, valid } = this.validateForm();
             let disabled = !valid;
             this.setState({
@@ -107,9 +172,11 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
     onSelectionChangeCallback(e: DropDownStates) {
         let listFields = this.state.listFields;
         listFields[e.dropdownKey] = e.selected;
+        //update new value
         this.setState<never>({
             listFields
         }, () => {
+            //validate form
             let { errors, valid } = this.validateForm();
             let disabled = !valid;
             this.setState({
@@ -124,13 +191,14 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
      * @param event event
      */
     handleChange(event: any) {
-        event.preventDefault();
         const { name, value } = event.target;
         let listFields = this.state.listFields;
         listFields[name] = value;
+        //update new value
         this.setState<never>({
             listFields
         }, () => {
+            //validate form
             let { errors, valid } = this.validateForm();
             let disabled = !valid;
             this.setState({
@@ -169,10 +237,12 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
         this.props.ListFields.forEach(element => {
             errors[element.key] = [];
             switch (element.controlType) {
+                //validate fields with type textbox and textarea
                 case this.formConfig.questionControlType.textbox:
                 case this.formConfig.questionControlType.textarea:
                     for (var key1 in element.validators) {
                         switch (key1) {
+                            //mandatory field
                             case this.formConfig.formValidators.require:
                                 if (!(this.state.listFields[element.key] && this.state.listFields[element.key] !== "")) {
                                     errors[element.key].push(
@@ -180,6 +250,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                                     );
                                 }
                                 break;
+                            //min-length
                             case this.formConfig.formValidators.minLength:
                                 if (!(this.state.listFields[element.key] && this.state.listFields[element.key].length >= element.validators[key].value)) {
                                     errors[element.key].push(
@@ -187,6 +258,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                                     );
                                 }
                                 break;
+                            //max-length
                             case this.formConfig.formValidators.maxLength:
                                 if (!(this.state.listFields[element.key] && this.state.listFields[element.key].length <= element.validators[key].value)) {
                                     errors[element.key].push(
@@ -194,16 +266,16 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                                     );
                                 }
                                 break;
-                            case this.formConfig.formValidators.email:
-                                break;
                             default:
                                 break;
                         }
                     }
                     break;
+                //validate fields with type reference
                 case this.formConfig.questionControlType.reference:
                     for (var key2 in element.validators) {
                         switch (key2) {
+                            //mandatory field
                             case this.formConfig.formValidators.require:
                                 if (!this.state.listFields[element.key] || this.state.listFields[element.key]._id == null) {
                                     errors[element.key].push(
@@ -216,9 +288,11 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         }
                     }
                     break;
+                //validate fields with type dropdown
                 case this.formConfig.questionControlType.dropdown:
                     for (var key3 in element.validators) {
                         switch (key3) {
+                            //mandatory field
                             case this.formConfig.formValidators.require:
                                 //not have value or value is 0 = [--none--]
                                 if (!this.state.listFields[element.key]
@@ -235,6 +309,7 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         }
                     }
                     break;
+                //validate fields with type date time
                 case this.formConfig.questionControlType.dateRange:
                     for (var key4 in element.validators) {
                         switch (key4) {
@@ -253,11 +328,46 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         }
                     }
                     break;
+                //validate fields with type radio button
+                case this.formConfig.questionControlType.radiobutton:
+                    for (var key5 in element.validators) {
+                        switch (key5) {
+                            //mandatory field
+                            case this.formConfig.formValidators.require:
+                                if (!this.state.listFields[element.key]) {
+                                    errors[element.key].push(
+                                        element.validators[key5].errorMessage
+                                    );
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+                //validate fields with type date time
+                case this.formConfig.questionControlType.datetime:
+                    for (var key6 in element.validators) {
+                        switch (key6) {
+                            //mandatory field
+                            case this.formConfig.formValidators.require:
+                                if (!this.state.listFields[element.key]) {
+                                    errors[element.key].push(
+                                        element.validators[key6].errorMessage
+                                    );
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
 
         });
+        //look at errors
         for (var key in errors) {
             if (errors[key].length > 0) {
                 valid = false;
@@ -297,7 +407,8 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
     renderQuestion(question: QuestionBase<any>) {
         //depend on type of question => render appropriate element
         switch (question.controlType) {
-            case this.formConfig.questionControlType.textbox: //type textbox
+            //question type = textbox
+            case this.formConfig.questionControlType.textbox:
                 return (
                     <fieldset key={question.key} className="form-group">
                         <label htmlFor={question.key}>
@@ -313,7 +424,8 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
                 );
-            case this.formConfig.questionControlType.textarea:    //type text area
+            //question type = textarea
+            case this.formConfig.questionControlType.textarea:
                 return (
                     <fieldset key={question.key} className="form-group">
                         <label htmlFor={question.key}>
@@ -329,7 +441,8 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
                 );
-            case this.formConfig.questionControlType.dropdown:    //type dropdown
+            //question type = dropdown list
+            case this.formConfig.questionControlType.dropdown:
                 return (
                     <fieldset key={question.key} className="form-group">
                         <label htmlFor={question.key}>
@@ -341,10 +454,11 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                             onSelectionChange={this.onSelectionChangeCallback}
                             options={question.options}
                             multiple={question.multiple}
-                            ></CustomDropDown>
+                        ></CustomDropDown>
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
                 );
+            //question type = reference
             case this.formConfig.questionControlType.reference:
                 return (
                     <fieldset key={question.key} className="form-group">
@@ -391,6 +505,33 @@ export class DynamicForm extends React.Component<DynamicFormProps, DynamicFormSt
                             dataChange={this.onCkeditorChange}
                             ckeditorKey={question.key}
                         />
+                        {this.renderErrorMessage(question.key)}
+                    </fieldset>
+                )
+            //question type = date time
+            case this.formConfig.questionControlType.datetime:
+                return (
+                    <fieldset key={question.key} className="form-group">
+                        <label htmlFor={question.key}>
+                            <span hidden={!question.validators['required']} style={DangerText}>* </span><span data-text={question.label}>{question.label}</span>
+                        </label>
+                        <DateTime referenceKey={question.key}
+                            dateTime={question.value}
+                            onSelectionChange={this.onselectionDateTimeChange}>
+                        </DateTime>
+                        {this.renderErrorMessage(question.key)}
+                    </fieldset>
+                )
+            //question type = Radio button
+            case this.formConfig.questionControlType.radiobutton:
+                return (
+                    <fieldset key={question.key} className="form-group">
+                        <label htmlFor={question.key}>
+                            <span hidden={!question.validators['required']} style={DangerText}>* </span><span data-text={question.label}>{question.label}</span>
+                        </label>
+                        <RadioButton onSelectionChange={this.onRadioSelectionChange}
+                            referenceKey={question.key}
+                            options={question.options} />
                         {this.renderErrorMessage(question.key)}
                     </fieldset>
                 )

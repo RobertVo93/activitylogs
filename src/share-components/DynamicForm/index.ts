@@ -8,4 +8,6 @@ export * from './questions/question-textarea';
 export * from './questions/question-textbox';
 export * from './questions/question-daterange';
 export * from './questions/question-reference';
+export * from './questions/question-datetime';
+export * from './questions/question-radiobutton';
 export * from './questions/question-ckeditor';

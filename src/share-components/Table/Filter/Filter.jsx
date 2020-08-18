@@ -30,7 +30,9 @@ export function SelectColumnFilter({
     const options = React.useMemo(() => {
         const options = new Set()
         preFilteredRows.forEach(row => {
-            options.add(row.values[id])
+            if(row.values[id] !== ''){
+                options.add(row.values[id])
+            }
         })
         return [...options.values()]
     }, [id, preFilteredRows])

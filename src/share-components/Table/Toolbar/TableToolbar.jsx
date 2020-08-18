@@ -59,6 +59,7 @@ const TableToolbar = props => {
 		globalFilter = '',
 		TableName = '',
 		allColumns,
+		showAddRecord
 	} = props
 	return (
 		<Toolbar
@@ -67,7 +68,7 @@ const TableToolbar = props => {
 			})}
 		>
 			{
-				addRecordHandler.toString() !== "() => {}" ?
+				showAddRecord ?
 					(
 						<Tooltip title="Add">
 							<IconButton aria-label="add" onClick={addRecordHandler}>

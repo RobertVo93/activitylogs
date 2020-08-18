@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './UserContainer.scss';
 import { User } from '../../../class/user';
 import { connect } from 'react-redux';
 import { UserServiceApi } from '../../../components/Management/Users/User.service';
