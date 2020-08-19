@@ -9,7 +9,7 @@ import { DropDownStates } from '../Variables/DropdownList/DropDownPropsStates';
 import { DateTimeStates } from '../Variables/DateTime/DateTimePropsStates';
 import { DateRangeStates } from '../Variables/DateRange/DateRangePropsStates';
 import './DynamicForm.scss';
-import { ODateRange } from '../../class/common/date-range';
+import { ODateRange } from '../Variables/DateRange';
 import { ReactCkeditor } from '../Ckeditor/Ckeditor';
 const ContainerDiv = styled.div`
 `;

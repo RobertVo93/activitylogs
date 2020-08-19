@@ -4,10 +4,12 @@
 import React from 'react';
 import ReactDatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { DateRangeProps, DateRangeStates, initialDateRangeStates } from './DateRangePropsStates';
-import './DateRange.scss';
 import styled from 'styled-components';
-import { ODateRange } from '../../../class/common/date-range';
+
+import './DateRange.scss';
+import { DateRangeProps, DateRangeStates, initialDateRangeStates } from './DateRangePropsStates';
+import { ODateRange } from './date-range';
+
 const ContainerDiv = styled.div`
     width: 100%;
 `;

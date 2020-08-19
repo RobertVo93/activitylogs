@@ -1,4 +1,4 @@
-import { ODateRange } from "./common/date-range";
+import { ODateRange } from "../share-components/Variables/DateRange";
 import { KeyValue } from "./common/keyValue";
 import { User } from "./user";
 import { Comment } from "../share-components/CommentLog";

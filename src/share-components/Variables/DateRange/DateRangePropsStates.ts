@@ -1,4 +1,4 @@
-import { ODateRange } from "../../../class/common/date-range";
+import { ODateRange } from "./date-range";
 
 export interface DateRangeProps {
     dateRange?: ODateRange,
