@@ -60,7 +60,10 @@ class ProjectContainer extends Component<ProjectContainerProps, ProjectContainer
         }
     }
 
-    componentDidMount() { 
+    async componentDidMount() {
+        let projects = await this.projectService.getAllData();
+        this.props.storeProjects(projects);
+        this.setState({ allProject: projects });
     }
 
     /**
@@ -139,9 +142,9 @@ class ProjectContainer extends Component<ProjectContainerProps, ProjectContainer
                     <Route exact path="/management/projects">
                         <ContainerDiv className="project-list">
                             <Table columns={columns}
-                                data={this.state.projectList}
+                                data={this.state.allProject}
                                 pageCount={this.state.allProject.length}
-                                fetchData={this.getProjectByFilter}
+                                fetchData={() => { }}
                                 deleteRecordHandler={this.deleteProjectHandler}
                                 addRecordHandler={this.addProjectHandler}
                                 TableName="Projects"

@@ -62,7 +62,10 @@ class ActivityContainer extends Component<ActivityContainerProps, ActivityContai
         }
     }
 
-    componentDidMount() { 
+    async componentDidMount() {
+        let activities = await this.activityService.getAllData();
+        this.props.storeActivities(activities);
+        this.setState({ allActivity: activities });
     }
 
     /**
@@ -225,9 +228,9 @@ class ActivityContainer extends Component<ActivityContainerProps, ActivityContai
                     <Route exact path="/management/activities">
                         <ContainerDiv className="activity-list">
                             <Table columns={columns}
-                                data={this.state.activityList}
+                                data={this.state.allActivity}
                                 pageCount={this.state.allActivity.length}
-                                fetchData={this.getActivityByFilter}
+                                fetchData={() => { }}
                                 deleteRecordHandler={this.deleteActivityHandler}
                                 addRecordHandler={this.addActivityHandler}
                                 TableName="Activities"

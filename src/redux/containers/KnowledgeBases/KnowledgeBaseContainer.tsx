@@ -60,7 +60,10 @@ class KnowledgeBaseContainer extends Component<KnowledgeBaseContainerProps, Know
         }
     }
 
-    componentDidMount() { 
+    async componentDidMount() {
+        let knowledgeBases = await this.knowledgeBaseService.getAllData();
+        this.props.storeKnowledgeBases(knowledgeBases);
+        this.setState({ allKnowledgeBase: knowledgeBases });
     }
 
     /**
@@ -139,9 +142,9 @@ class KnowledgeBaseContainer extends Component<KnowledgeBaseContainerProps, Know
                     <Route exact path="/management/knowledgebases">
                         <ContainerDiv className="knowledgeBase-list">
                             <Table columns={columns}
-                                data={this.state.knowledgeBaseList}
+                                data={this.state.allKnowledgeBase}
                                 pageCount={this.state.allKnowledgeBase.length}
-                                fetchData={this.getKnowledgeBaseByFilter}
+                                fetchData={() => { }}
                                 deleteRecordHandler={this.deleteKnowledgeBaseHandler}
                                 addRecordHandler={this.addKnowledgeBaseHandler}
                                 TableName="Knowledge Bases"

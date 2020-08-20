@@ -26,7 +26,7 @@ interface KnowledgeArticleContainerStates {
 const ContainerDiv = styled.div`
     min-height: calc(100vh - 80px);
 `;
-const contentStyle:React.CSSProperties = {
+const contentStyle: React.CSSProperties = {
     maxHeight: '55px',
     overflow: 'hidden'
 }
@@ -63,7 +63,10 @@ class KnowledgeArticleContainer extends Component<KnowledgeArticleContainerProps
         }
     }
 
-    componentDidMount() { 
+    async componentDidMount() {
+        let knowledgeArticles = await this.knowledgeArticleService.getAllData();
+        this.props.storeKnowledgeArticles(knowledgeArticles);
+        this.setState({ allKnowledgeArticle: knowledgeArticles });
     }
 
     /**
@@ -135,7 +138,7 @@ class KnowledgeArticleContainer extends Component<KnowledgeArticleContainerProps
             {
                 Header: 'Contents',
                 id: 'contents',
-                accessor: (row: KnowledgeArticle) => (<div style={contentStyle} dangerouslySetInnerHTML={{__html: row.contents}}></div>)
+                accessor: (row: KnowledgeArticle) => (<div style={contentStyle} dangerouslySetInnerHTML={{ __html: row.contents }}></div>)
             },
             {
                 Header: 'Reviewer',
@@ -152,9 +155,9 @@ class KnowledgeArticleContainer extends Component<KnowledgeArticleContainerProps
                     <Route exact path="/management/knowledgearticles">
                         <ContainerDiv className="knowledgeArticle-list">
                             <Table columns={columns}
-                                data={this.state.knowledgeArticleList}
+                                data={this.state.allKnowledgeArticle}
                                 pageCount={this.state.allKnowledgeArticle.length}
-                                fetchData={this.getKnowledgeArticleByFilter}
+                                fetchData={() => { }}
                                 deleteRecordHandler={this.deleteKnowledgeArticleHandler}
                                 addRecordHandler={this.addKnowledgeArticleHandler}
                                 TableName="Knowledge Articles"

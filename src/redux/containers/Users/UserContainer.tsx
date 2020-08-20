@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { UserServiceApi } from '../../../components/Management/Users/User.service';
 import * as apiConfig from '../../../configuration/api.config';
 import { Link, Switch, Route } from 'react-router-dom';
-import  UserComponent  from '../../../components/Management/Users/User';
+import UserComponent from '../../../components/Management/Users/User';
 import { storeUser } from '../../store/user/actions';
 import { AppState } from '../../store';
 import styled from 'styled-components';
@@ -42,15 +42,17 @@ class UserContainer extends Component<UserContainerProps, UserContainerStates>{
     }
 
     async componentDidMount() {
-        this.getUserByFilter({pageSize: 10, pageIndex: 0});
+        let users = await this.userService.getAllUsers();
+        this.props.storeUser(users);
+        this.setState({ allUser: users });
     }
 
-    async getUserByFilter(pagination: Pagination){
+    async getUserByFilter(pagination: Pagination) {
         this.setState({
             isLoading: true
         });
         let users = this.state.allUser;
-        if(users.length === 0){
+        if (users.length === 0) {
             users = await this.userService.getAllUsers();
             this.props.storeUser(users);
         }
@@ -63,8 +65,8 @@ class UserContainer extends Component<UserContainerProps, UserContainerStates>{
         });
     }
 
-    async deleteUserHandler(records: User[]){
-        if(window.confirm("Do you want to delete the selected record(s)?")){
+    async deleteUserHandler(records: User[]) {
+        if (window.confirm("Do you want to delete the selected record(s)?")) {
             await this.userService.deleteRecords(records);
         }
     }
@@ -96,10 +98,10 @@ class UserContainer extends Component<UserContainerProps, UserContainerStates>{
             <Switch>
                 <Route exact path='/users'>
                     <ContainerDiv className="user-list">
-                        <Table columns={columns} 
-                            data={this.state.userList} 
+                        <Table columns={columns}
+                            data={this.state.allUser}
                             pageCount={this.state.allUser.length}
-                            fetchData={this.getUserByFilter}
+                            fetchData={() => { }}
                             deleteRecordHandler={this.deleteUserHandler}
                             TableName="Users"
                         />
