@@ -28,6 +28,8 @@ import KnowledgeBaseContainer from './redux/containers/KnowledgeBases/KnowledgeB
 import KnowledgeArticleContainer from './redux/containers/KnowledgeArticles/KnowledgeArticleContainer';
 import ProjectContainer from './redux/containers/Projects/ProjectContainer';
 import { updateAlert } from './redux/store/request/actions';
+import { SecureRoute } from './share-components/SecureRoute';
+import { Page401 } from './share-components/Page401';
 
 type AppStates = {
 	redirectLogin: boolean,
@@ -92,15 +94,15 @@ class App extends React.Component<AppProps, AppStates> {
 				else {
 					this.props.updateAlert({
 						show: true,
-							value: this.config.commonMessage.userNotFound,
-							variant: this.config.alertVariants.danger
+						value: this.config.commonMessage.userNotFound,
+						variant: this.config.alertVariants.danger
 					});
 				}
 			}).catch((err) => {
 				this.props.updateAlert({
 					show: true,
-						value: this.config.commonMessage.loginError,
-						variant: this.config.alertVariants.danger
+					value: this.config.commonMessage.loginError,
+					variant: this.config.alertVariants.danger
 				});
 			});
 	}
@@ -129,16 +131,16 @@ class App extends React.Component<AppProps, AppStates> {
 				else {
 					this.props.updateAlert({
 						show: true,
-							value: this.config.commonMessage.signUpError,
-							variant: this.config.alertVariants.danger
+						value: this.config.commonMessage.signUpError,
+						variant: this.config.alertVariants.danger
 					});
 				}
 			})
 			.catch((err) => {
 				this.props.updateAlert({
 					show: true,
-						value: this.config.commonMessage.signUpError,
-						variant: this.config.alertVariants.danger
+					value: this.config.commonMessage.signUpError,
+					variant: this.config.alertVariants.danger
 				});
 			});
 	}
@@ -168,27 +170,26 @@ class App extends React.Component<AppProps, AppStates> {
 				}
 				<div className="container">
 					<Switch>
-						<Route path="/about">
-							<About />
-						</Route>
-						<Route path="/contact">
-							<Contact />
-						</Route>
-						<Route path="/management/projects">
-							<ProjectContainer />
-						</Route>
-						<Route path="/management/activities">
-							<ActivityContainer />
-						</Route>
-						<Route path="/management/knowledgebases">
-							<KnowledgeBaseContainer />
-						</Route>
-						<Route path="/management/knowledgearticles">
-							<KnowledgeArticleContainer />
-						</Route>
-						<Route path="/users">
-							<UserContainer />
-						</Route>
+						<SecureRoute path="/management/projects"
+							component={ProjectContainer}
+							user={this.props.user.currentUser}
+						/>
+						<SecureRoute path="/management/activities"
+							component={ActivityContainer}
+							user={this.props.user.currentUser}
+						/>
+						<SecureRoute path="/management/knowledgebases"
+							component={KnowledgeBaseContainer}
+							user={this.props.user.currentUser}
+						/>
+						<SecureRoute path="/management/knowledgearticles"
+							component={KnowledgeArticleContainer}
+							user={this.props.user.currentUser}
+						/>
+						<SecureRoute path="/users"
+							component={UserContainer}
+							user={this.props.user.currentUser}
+						/>
 						{
 							this.props.user.currentUser._id === undefined ?
 								(
@@ -206,9 +207,20 @@ class App extends React.Component<AppProps, AppStates> {
 							<SignUp OnRegister={this.handleOnSubmitRegisterForm}
 								LoginRedirectLink="/login" />
 						</Route>
-						<Route path="/">
+
+						<Route path="/about">
+							<About />
+						</Route>
+						<Route path="/contact">
+							<Contact />
+						</Route>
+						<Route path="/page401">
+							<Page401 />
+						</Route>
+						<Route path="/home">
 							<Home />
 						</Route>
+						<Route component={Page401} />
 					</Switch>
 				</div>
 			</Router>

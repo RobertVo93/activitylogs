@@ -131,7 +131,7 @@ class Toolbar extends React.Component<ToolbarProps, ToolbarStates> {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav nav-dropdown" data-app-modern-menu="true">
                             <li className="nav-item">
-                                <Link className="nav-link link text-white display-4" to="/">Home</Link>
+                                <Link className="nav-link link text-white display-4" to="/home">Home</Link>
                             </li>
                             {
                                 this.renderManagementLink()
